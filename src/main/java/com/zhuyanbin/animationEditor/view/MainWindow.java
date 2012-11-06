@@ -16,9 +16,11 @@ public final class MainWindow extends Shell
 {
     private ResizeListener _resizeListener;
     private Text tSpeed;
-    private Text tWidth;
+    private Text tActWidth;
     private Text tRepeat;
-    private Text tHeight;
+    private Text tActHeight;
+    private Text tDirectWidth;
+    private Text tDirectHeight;
     
     public MainWindow()
     {
@@ -52,14 +54,6 @@ public final class MainWindow extends Shell
         ccAction.setEditable(false);
         ccAction.setBounds(52, 9, 62, 14);
         
-        Label lbDirection = new Label(this, SWT.NONE);
-        lbDirection.setBounds(10, 63, 36, 14);
-        lbDirection.setText("方向:");
-        
-        CCombo ccDirection = new CCombo(this, SWT.BORDER);
-        ccDirection.setEditable(false);
-        ccDirection.setBounds(52, 62, 62, 14);
-        
         Label lbSpeed = new Label(this, SWT.NONE);
         lbSpeed.setBounds(128, 10, 36, 14);
         lbSpeed.setText("速度:");
@@ -67,12 +61,12 @@ public final class MainWindow extends Shell
         tSpeed = new Text(this, SWT.BORDER);
         tSpeed.setBounds(164, 5, 40, 20);
         
-        Label lbWidth = new Label(this, SWT.NONE);
-        lbWidth.setBounds(132, 36, 26, 14);
-        lbWidth.setText("宽:");
+        Label lbActWidth = new Label(this, SWT.NONE);
+        lbActWidth.setBounds(132, 36, 26, 14);
+        lbActWidth.setText("宽:");
         
-        tWidth = new Text(this, SWT.BORDER);
-        tWidth.setBounds(164, 30, 40, 20);
+        tActWidth = new Text(this, SWT.BORDER);
+        tActWidth.setBounds(164, 30, 40, 20);
         
         Label lbRepeat = new Label(this, SWT.NONE);
         lbRepeat.setBounds(211, 10, 36, 14);
@@ -81,12 +75,34 @@ public final class MainWindow extends Shell
         tRepeat = new Text(this, SWT.BORDER);
         tRepeat.setBounds(253, 7, 40, 20);
         
-        Label lbHeight = new Label(this, SWT.NONE);
-        lbHeight.setBounds(221, 36, 26, 14);
-        lbHeight.setText("高:");
+        Label lbActHeight = new Label(this, SWT.NONE);
+        lbActHeight.setBounds(221, 36, 26, 14);
+        lbActHeight.setText("高:");
         
-        tHeight = new Text(this, SWT.BORDER);
-        tHeight.setBounds(253, 30, 40, 20);
+        tActHeight = new Text(this, SWT.BORDER);
+        tActHeight.setBounds(253, 30, 40, 20);
+        
+        Label lbDirection = new Label(this, SWT.NONE);
+        lbDirection.setBounds(10, 63, 36, 14);
+        lbDirection.setText("方向:");
+        
+        CCombo ccDirection = new CCombo(this, SWT.BORDER);
+        ccDirection.setEditable(false);
+        ccDirection.setBounds(52, 62, 62, 14);
+        
+        Label lbDirectWidth = new Label(this, SWT.NONE);
+        lbDirectWidth.setText("宽:");
+        lbDirectWidth.setBounds(132, 62, 26, 14);
+        
+        tDirectWidth = new Text(this, SWT.BORDER);
+        tDirectWidth.setBounds(164, 62, 40, 20);
+        
+        Label lbDirectHeight = new Label(this, SWT.NONE);
+        lbDirectHeight.setText("高:");
+        lbDirectHeight.setBounds(221, 62, 26, 14);
+        
+        tDirectHeight = new Text(this, SWT.BORDER);
+        tDirectHeight.setBounds(253, 62, 40, 20);
     }
     
     @Override
