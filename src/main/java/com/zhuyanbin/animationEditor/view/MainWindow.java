@@ -11,6 +11,8 @@ import com.zhuyanbin.animationEditor.NotiConst;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Button;
 
 public final class MainWindow extends Shell
 {
@@ -103,6 +105,16 @@ public final class MainWindow extends Shell
         
         tDirectHeight = new Text(this, SWT.BORDER);
         tDirectHeight.setBounds(253, 62, 40, 20);
+        
+        Composite composite = new Composite(this, SWT.BORDER);
+        composite.setBounds(10, 93, 450, 450);
+        
+        Button btnNewButton = new Button(this, SWT.NONE);
+        btnNewButton.setBounds(640, 0, 94, 28);
+        btnNewButton.setText("New Button");
+        
+        Composite composite_1 = new Composite(this, SWT.BORDER);
+        composite_1.setBounds(540, 93, 450, 450);
     }
     
     @Override
