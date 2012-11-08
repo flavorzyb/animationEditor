@@ -1,5 +1,6 @@
 package com.zhuyanbin.animationEditor.mediator;
 
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Display;
 import org.puremvc.java.interfaces.INotification;
 import org.puremvc.java.patterns.mediator.Mediator;
@@ -26,7 +27,8 @@ public final class MainWindowMediator extends Mediator
     {
         return new String[] {
                 NotiConst.S_MEDIATOR_MAIN_SHOW,
-                NotiConst.S_MEDIATOR_MAIN_RESIZE
+                NotiConst.S_MEDIATOR_MAIN_RESIZE,
+                NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE
         };
     }
     
@@ -40,6 +42,11 @@ public final class MainWindowMediator extends Mediator
         }
         else if (notiName.equals(NotiConst.S_MEDIATOR_MAIN_RESIZE))
         {
+        }
+        else if (notiName.equals(NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE))
+        {
+            GC gc = (GC) notification.getBody();
+            getViewComponent().drawCoordinate(gc);
         }
     } 
     

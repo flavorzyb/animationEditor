@@ -8,22 +8,29 @@ import org.eclipse.swt.widgets.Shell;
 import org.puremvc.java.patterns.facade.Facade;
 
 import com.zhuyanbin.animationEditor.NotiConst;
+import com.zhuyanbin.animationEditor.view.mainwindow.PreviewShowCanvas;
+
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public final class MainWindow extends Shell
 {
     private ResizeListener _resizeListener;
+    private PrewviewShowCanvasPaintListener _pscPaintListener;
     private Text tSpeed;
     private Text tActWidth;
     private Text tRepeat;
     private Text tActHeight;
     private Text tDirectWidth;
     private Text tDirectHeight;
-    
+    private PreviewShowCanvas _psc;
     public MainWindow()
     {
         this(Display.getDefault());
@@ -46,7 +53,7 @@ public final class MainWindow extends Shell
     protected void createContents()
     {
         setText("动作编辑器");
-        setSize(1000, 600);
+        setSize(1200, 640);
         
         Label lbAction = new Label(this, SWT.NONE);
         lbAction.setBounds(10, 10, 36, 14);
@@ -106,15 +113,34 @@ public final class MainWindow extends Shell
         tDirectHeight = new Text(this, SWT.BORDER);
         tDirectHeight.setBounds(253, 62, 40, 20);
         
-        Composite composite = new Composite(this, SWT.BORDER);
-        composite.setBounds(10, 93, 450, 450);
+        Composite cPreviewShowComposite = new Composite(this, SWT.BORDER);
+        cPreviewShowComposite.setBounds(10, 140, 450, 450);
+        
+        _psc = new PreviewShowCanvas(cPreviewShowComposite, SWT.NONE);
         
         Button btnNewButton = new Button(this, SWT.NONE);
         btnNewButton.setBounds(640, 0, 94, 28);
-        btnNewButton.setText("New Button");
+        btnNewButton.setText("导入图片");
         
         Composite composite_1 = new Composite(this, SWT.BORDER);
-        composite_1.setBounds(540, 93, 450, 450);
+        composite_1.setBackground(SWTResourceManager.getColor(0, 0, 0));
+        composite_1.setBounds(630, 140, 450, 450);
+        
+        Button btnjta = new Button(this, SWT.NONE);
+        btnjta.setBounds(763, 0, 94, 28);
+        btnjta.setText("导入jta文件");
+        
+        Button btnAboutMe = new Button(this, SWT.NONE);
+        btnAboutMe.setBounds(984, 3, 94, 28);
+        btnAboutMe.setText("关于");
+    }
+    
+    public void drawCoordinate(GC gc)
+    {
+        if (null != _psc)
+        {
+            _psc.drawCoordinate(gc);
+        }
     }
     
     @Override
@@ -126,6 +152,8 @@ public final class MainWindow extends Shell
     {
         _resizeListener = new ResizeListener();
         addListener(SWT.Resize, _resizeListener);
+        _pscPaintListener = new PrewviewShowCanvasPaintListener();
+        _psc.addPaintListener(_pscPaintListener);
     }
     
     private void removeEvents()
@@ -134,6 +162,12 @@ public final class MainWindow extends Shell
         {
             removeListener(SWT.Resize, _resizeListener);
             _resizeListener = null;
+        }
+        
+        if (null != _pscPaintListener)
+        {
+            removePaintListener(_pscPaintListener);
+            _pscPaintListener = null;
         }
     }
     
@@ -150,6 +184,15 @@ public final class MainWindow extends Shell
         public void handleEvent (Event event)
         {
             Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_RESIZE);
+        }
+    }
+    
+    class PrewviewShowCanvasPaintListener implements PaintListener
+    {
+        @Override
+        public void paintControl(PaintEvent e)
+        {
+            Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE, e.gc);
         }
     }
 }
