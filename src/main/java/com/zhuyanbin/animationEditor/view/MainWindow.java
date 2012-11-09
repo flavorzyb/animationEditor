@@ -12,6 +12,8 @@ import com.zhuyanbin.animationEditor.view.mainwindow.PreviewShowCanvas;
 
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -24,6 +26,7 @@ public final class MainWindow extends Shell
 {
     private ResizeListener _resizeListener;
     private PrewviewShowCanvasPaintListener _pscPaintListener;
+    private AboutMeMouseListener _aboutMeMouseListener;
     private Text tSpeed;
     private Text tActWidth;
     private Text tRepeat;
@@ -31,6 +34,8 @@ public final class MainWindow extends Shell
     private Text tDirectWidth;
     private Text tDirectHeight;
     private PreviewShowCanvas _psc;
+    private Button _btnAboutMe;
+    
     public MainWindow()
     {
         this(Display.getDefault());
@@ -60,8 +65,9 @@ public final class MainWindow extends Shell
         lbAction.setText("动作:");
         
         CCombo ccAction = new CCombo(this, SWT.BORDER);
+        ccAction.setText("请选择动作");
         ccAction.setEditable(false);
-        ccAction.setBounds(52, 9, 62, 14);
+        ccAction.setBounds(52, 9, 80, 20);
         
         Label lbSpeed = new Label(this, SWT.NONE);
         lbSpeed.setBounds(128, 10, 36, 14);
@@ -70,13 +76,6 @@ public final class MainWindow extends Shell
         tSpeed = new Text(this, SWT.BORDER);
         tSpeed.setBounds(164, 5, 40, 20);
         
-        Label lbActWidth = new Label(this, SWT.NONE);
-        lbActWidth.setBounds(132, 36, 26, 14);
-        lbActWidth.setText("宽:");
-        
-        tActWidth = new Text(this, SWT.BORDER);
-        tActWidth.setBounds(164, 30, 40, 20);
-        
         Label lbRepeat = new Label(this, SWT.NONE);
         lbRepeat.setBounds(211, 10, 36, 14);
         lbRepeat.setText("重复:");
@@ -84,34 +83,42 @@ public final class MainWindow extends Shell
         tRepeat = new Text(this, SWT.BORDER);
         tRepeat.setBounds(253, 7, 40, 20);
         
+        Label lbActWidth = new Label(this, SWT.NONE);
+        lbActWidth.setBounds(142, 50, 26, 14);
+        lbActWidth.setText("宽:");
+        
+        tActWidth = new Text(this, SWT.BORDER);
+        tActWidth.setBounds(174, 50, 40, 20);
+        
         Label lbActHeight = new Label(this, SWT.NONE);
-        lbActHeight.setBounds(221, 36, 26, 14);
+        lbActHeight.setBounds(230, 50, 26, 14);
         lbActHeight.setText("高:");
         
         tActHeight = new Text(this, SWT.BORDER);
-        tActHeight.setBounds(253, 30, 40, 20);
+        tActHeight.setBounds(253, 50, 40, 20);
         
         Label lbDirection = new Label(this, SWT.NONE);
-        lbDirection.setBounds(10, 63, 36, 14);
+        lbDirection.setBounds(10, 93, 36, 14);
         lbDirection.setText("方向:");
         
         CCombo ccDirection = new CCombo(this, SWT.BORDER);
         ccDirection.setEditable(false);
-        ccDirection.setBounds(52, 62, 62, 14);
+        ccDirection.setBounds(52, 93, 80, 20);
+        ccDirection.setText("请选择方向");
         
         Label lbDirectWidth = new Label(this, SWT.NONE);
         lbDirectWidth.setText("宽:");
-        lbDirectWidth.setBounds(132, 62, 26, 14);
+        lbDirectWidth.setBounds(142, 93, 26, 14);
         
         tDirectWidth = new Text(this, SWT.BORDER);
-        tDirectWidth.setBounds(164, 62, 40, 20);
+        tDirectWidth.setBounds(174, 93, 40, 20);
         
         Label lbDirectHeight = new Label(this, SWT.NONE);
         lbDirectHeight.setText("高:");
-        lbDirectHeight.setBounds(221, 62, 26, 14);
+        lbDirectHeight.setBounds(230, 93, 26, 14);
         
         tDirectHeight = new Text(this, SWT.BORDER);
-        tDirectHeight.setBounds(253, 62, 40, 20);
+        tDirectHeight.setBounds(263, 93, 40, 20);
         
         Composite cPreviewShowComposite = new Composite(this, SWT.BORDER);
         cPreviewShowComposite.setBounds(10, 140, 450, 450);
@@ -130,9 +137,9 @@ public final class MainWindow extends Shell
         btnjta.setBounds(763, 0, 94, 28);
         btnjta.setText("导入jta文件");
         
-        Button btnAboutMe = new Button(this, SWT.NONE);
-        btnAboutMe.setBounds(984, 3, 94, 28);
-        btnAboutMe.setText("关于");
+        _btnAboutMe = new Button(this, SWT.NONE);
+        _btnAboutMe.setBounds(984, 3, 94, 28);
+        _btnAboutMe.setText("关于");
     }
     
     public void drawCoordinate(GC gc)
@@ -152,8 +159,12 @@ public final class MainWindow extends Shell
     {
         _resizeListener = new ResizeListener();
         addListener(SWT.Resize, _resizeListener);
+        
         _pscPaintListener = new PrewviewShowCanvasPaintListener();
         _psc.addPaintListener(_pscPaintListener);
+        
+        _aboutMeMouseListener = new AboutMeMouseListener();
+        _btnAboutMe.addMouseListener(_aboutMeMouseListener);
     }
     
     private void removeEvents()
@@ -166,8 +177,14 @@ public final class MainWindow extends Shell
         
         if (null != _pscPaintListener)
         {
-            removePaintListener(_pscPaintListener);
+            _psc.removePaintListener(_pscPaintListener);
             _pscPaintListener = null;
+        }
+        
+        if (null != _aboutMeMouseListener)
+        {
+            _btnAboutMe.removeMouseListener(_aboutMeMouseListener);
+            _aboutMeMouseListener = null;
         }
     }
     
@@ -176,6 +193,11 @@ public final class MainWindow extends Shell
     {
         removeEvents();
         super.dispose();
+    }
+    
+    private MainWindow getMainWindow()
+    {
+        return this;
     }
     
     class ResizeListener implements Listener
@@ -193,6 +215,27 @@ public final class MainWindow extends Shell
         public void paintControl(PaintEvent e)
         {
             Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE, e.gc);
+        }
+    }
+    
+    class AboutMeMouseListener implements MouseListener
+    {
+        @Override
+        public void mouseDoubleClick(MouseEvent e)
+        {
+            // do nothing
+        }
+        
+        @Override
+        public void mouseDown(MouseEvent e)
+        {
+            Facade.getInstance().sendNotification(NotiConst.S_COMMAND_ABOUTME_WINDOW_OPEN, getMainWindow());
+        }
+        
+        @Override
+        public void mouseUp(MouseEvent e)
+        {
+            // do nothing
         }
     }
 }

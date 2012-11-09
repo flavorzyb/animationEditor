@@ -2,6 +2,7 @@ package com.zhuyanbin.animationEditor;
 
 import org.puremvc.java.patterns.facade.Facade;
 
+import com.zhuyanbin.animationEditor.command.AboutMeCommand;
 import com.zhuyanbin.animationEditor.command.MainCommand;
 
 final public class AppFacade extends Facade
@@ -35,5 +36,10 @@ final public class AppFacade extends Facade
         super.initializeController();
         // 注册启动主程序事件
         registerCommand(NotiConst.STARTUP, new MainCommand());
+        
+        // 注册aboutme打开事件
+        registerCommand(NotiConst.S_COMMAND_ABOUTME_WINDOW_OPEN, new AboutMeCommand());
+        // 注册关闭aboutme事件
+        registerCommand(NotiConst.S_COMMAND_ABOUTME_WINDOW_CLOSE, new AboutMeCommand());
     }
 }

@@ -18,4 +18,24 @@ public final class NotiConst
      * 画主窗体的坐标系
      */
     final public static String S_MEDIATOR_MAIN_DRAW_COORDINATE = "sMediatorMainDrawCoordinate";
+
+    /**
+     * 打开关于我界面command消息
+     */
+    final public static String S_COMMAND_ABOUTME_WINDOW_OPEN = "sCommandAboutMeWindowOpen";
+    
+    /**
+     * 打开关于我界面
+     */
+    final public static String S_MEDIATOR_ABOUTME_WINDOW_OPEN = "sMediatorAboutMeWindowOpen";
+    
+    /**
+     * 打开关于我界面command消息
+     */
+    final public static String S_COMMAND_ABOUTME_WINDOW_CLOSE = "sCommandAboutMeWindowClose";
+    
+    /**
+     * 打开关于我界面
+     */
+    final public static String S_MEDIATOR_ABOUTME_WINDOW_CLOSE = "sMediatorAboutMeWindowClose";
 }
