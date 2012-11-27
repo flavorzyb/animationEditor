@@ -28,7 +28,8 @@ public final class MainWindowMediator extends Mediator
         return new String[] {
                 NotiConst.S_MEDIATOR_MAIN_SHOW,
                 NotiConst.S_MEDIATOR_MAIN_RESIZE,
-                NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE
+                NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE,
+                NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION
         };
     }
     
@@ -47,6 +48,10 @@ public final class MainWindowMediator extends Mediator
         {
             GC gc = (GC) notification.getBody();
             getViewComponent().drawCoordinate(gc);
+        }
+        else if (notiName.equals(NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION))
+        {
+            getViewComponent().redrawAnimation();
         }
     } 
     

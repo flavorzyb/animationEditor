@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.puremvc.java.patterns.facade.Facade;
 
 import com.zhuyanbin.animationEditor.NotiConst;
+import com.zhuyanbin.animationEditor.view.mainwindow.AnimationShowCanvas;
 import com.zhuyanbin.animationEditor.view.mainwindow.PreviewShowCanvas;
 
 import org.eclipse.swt.widgets.Label;
@@ -32,6 +33,7 @@ public final class MainWindow extends Shell
     private AboutMeSelectionListener _aboutMeSelectionListener;
     private OpenImageSelectionListener _openImageSelectionListener;
     private PreviewShowCanvas _previewShowCanvas;
+    private AnimationShowCanvas _anAnimationShowCanvas;
     private MenuItem _miAboutMe;
     private MenuItem _miOpenImage;
     
@@ -64,9 +66,9 @@ public final class MainWindow extends Shell
         
         _previewShowCanvas = new PreviewShowCanvas(cPreviewShowComposite, SWT.NONE);
         
-        Composite composite_1 = new Composite(this, SWT.BORDER);
-        composite_1.setBackground(SWTResourceManager.getColor(0, 0, 0));
-        composite_1.setBounds(630, 140, 450, 450);
+        Composite cAnimationShowComposite = new Composite(this, SWT.BORDER);
+        cAnimationShowComposite.setBackground(SWTResourceManager.getColor(0, 0, 0));
+        cAnimationShowComposite.setBounds(630, 140, 450, 450);
         
         Group gFrameSettings = new Group(this, SWT.NONE);
         gFrameSettings.setText("帧设置");
@@ -170,6 +172,8 @@ public final class MainWindow extends Shell
         Button btnFreshAnimation = new Button(gAnimationShow, SWT.NONE);
         btnFreshAnimation.setBounds(135, 20, 94, 28);
         btnFreshAnimation.setText("刷新动画");
+        
+        _anAnimationShowCanvas = new AnimationShowCanvas(cAnimationShowComposite, SWT.NONE);
     }
     
     public void drawCoordinate(GC gc)
@@ -177,6 +181,14 @@ public final class MainWindow extends Shell
         if (null != _previewShowCanvas)
         {
             _previewShowCanvas.drawCoordinate(gc);
+        }
+    }
+    
+    public void redrawAnimation()
+    {
+        if (null != _anAnimationShowCanvas)
+        {
+            _anAnimationShowCanvas.redraw();
         }
     }
     
@@ -198,6 +210,14 @@ public final class MainWindow extends Shell
         
         _openImageSelectionListener = new OpenImageSelectionListener();
         _miOpenImage.addSelectionListener(_openImageSelectionListener);
+        _anAnimationShowCanvas.addPaintListener(new PaintListener()
+        {
+            @Override
+            public void paintControl(PaintEvent e)
+            {
+                _anAnimationShowCanvas.show();
+            }
+        });
     }
     
     private void removeEvents()
