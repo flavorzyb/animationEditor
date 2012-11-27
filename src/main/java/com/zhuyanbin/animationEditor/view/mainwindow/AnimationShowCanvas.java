@@ -1,7 +1,6 @@
 package com.zhuyanbin.animationEditor.view.mainwindow;
 
 import java.util.Vector;
-
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
@@ -78,8 +77,8 @@ public class AnimationShowCanvas extends Canvas
     {
         if (null == at)
         {
-            at = new AnimationThread();
-            at.start();
+//            at = new AnimationThread();
+//            at.start();
         }
     }
     
@@ -92,8 +91,8 @@ public class AnimationShowCanvas extends Canvas
             {
                 try
                 {
-                    sleep(300);
                     Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION);
+                    sleep(300);
                 }
                 catch (InterruptedException e)
                 {

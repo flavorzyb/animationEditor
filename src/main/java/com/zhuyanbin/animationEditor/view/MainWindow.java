@@ -121,7 +121,7 @@ public final class MainWindow extends Shell
         tFrameY.setBounds(118, 74, 40, 20);
         
         Group gAnimationSettings = new Group(this, SWT.NONE);
-        gAnimationSettings.setBounds(264, 7, 220, 113);
+        gAnimationSettings.setBounds(264, 7, 220, 122);
         gAnimationSettings.setText("动画设置");
         
         Label lbPlayCount = new Label(gAnimationSettings, SWT.NONE);
@@ -166,7 +166,7 @@ public final class MainWindow extends Shell
         
         Group gAnimationShow = new Group(this, SWT.NONE);
         gAnimationShow.setText("动画演示");
-        gAnimationShow.setBounds(645, 19, 283, 101);
+        gAnimationShow.setBounds(645, 7, 283, 122);
         
         Button btnPlayAnimation = new Button(gAnimationShow, SWT.NONE);
         btnPlayAnimation.setBounds(10, 20, 94, 28);
@@ -177,6 +177,14 @@ public final class MainWindow extends Shell
         btnFreshAnimation.setText("刷新动画");
         
         _anAnimationShowCanvas = new AnimationShowCanvas(cAnimationShowComposite, SWT.NONE);
+        new Runnable()
+        {
+            public void run()
+            {
+                _anAnimationShowCanvas.redraw();
+                getDisplay().timerExec(200, this);
+            }
+        }.run();
     }
     
     public void drawCoordinate(GC gc)
@@ -213,14 +221,6 @@ public final class MainWindow extends Shell
         
         _openImageSelectionListener = new OpenImageSelectionListener();
         _miOpenImage.addSelectionListener(_openImageSelectionListener);
-        _anAnimationShowCanvas.addPaintListener(new PaintListener()
-        {
-            @Override
-            public void paintControl(PaintEvent e)
-            {
-                _anAnimationShowCanvas.show();
-            }
-        });
     }
     
     private void removeEvents()
