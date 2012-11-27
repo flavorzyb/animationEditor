@@ -60,10 +60,11 @@ public class AnimationShowCanvas extends Canvas
             @Override
             public void paintControl(PaintEvent e)
             {
+//                System.out.println("paintControl Thread id:"+Thread.currentThread().getId());
                 index = index % _images.size();
                 e.gc.drawImage(_images.get(index), 10, 10);
                 index ++;
-                System.out.println(index);
+                //System.out.println(index);
             }
         });
     }
@@ -80,7 +81,6 @@ public class AnimationShowCanvas extends Canvas
             at = new AnimationThread();
             at.start();
         }
-        //gc.drawImage(_images.get(index), 10, 10);
     }
     
     class AnimationThread extends Thread

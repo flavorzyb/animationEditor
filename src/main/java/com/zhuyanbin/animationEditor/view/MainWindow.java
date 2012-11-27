@@ -77,9 +77,12 @@ public final class MainWindow extends Shell
         Label lbFrameSpeed = new Label(gFrameSettings, SWT.NONE);
         lbFrameSpeed.setText("速度:");
         lbFrameSpeed.setBounds(10, 10, 36, 14);
+        lbFrameSpeed.setToolTipText("播放延迟时间,单位:毫秒,1秒=1000毫秒");
         
         Text tFrameSpeed = new Text(gFrameSettings, SWT.BORDER);
+        tFrameSpeed.setText("0.3");
         tFrameSpeed.setBounds(50, 8, 40, 20);
+        tFrameSpeed.setToolTipText("播放延迟时间,单位:毫秒,1秒=1000毫秒");
         
         Label lbFrameWidth = new Label(gFrameSettings, SWT.NONE);
         lbFrameWidth.setText("宽:");
@@ -306,8 +309,10 @@ public final class MainWindow extends Shell
                 String [] fileNames = fd.getFileNames();
                 for (int i = 0; i < fileNames.length; i++)
                 {
-                    System.out.println(fileNames[i]);
+                    fileNames[i] = fd.getFilterPath() + "/" + fileNames[i];
                 }
+                
+                Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_OPEN_IMAGE_FILES, fileNames);
             }
         }
         

@@ -24,6 +24,10 @@ public final class NotiConst
      */
     final public static String S_MEDIATOR_MAIN_REDRAW_ANIMATION = "sMediatorMainReDrawAnimation";
     
+    /**
+     * 打开动画图片
+     */
+    final public static String S_MEDIATOR_MAIN_OPEN_IMAGE_FILES = "sMediatorMainOpenImageFiles";
 
     /**
      * 打开关于我界面command消息
