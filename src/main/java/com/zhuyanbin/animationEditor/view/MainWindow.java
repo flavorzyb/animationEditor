@@ -20,18 +20,19 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Group;
 
 public final class MainWindow extends Shell
 {
     private ResizeListener _resizeListener;
     private PrewviewShowCanvasPaintListener _pscPaintListener;
     private AboutMeMouseListener _aboutMeMouseListener;
-    private Text _tSpeed;
-    private Text _tActWidth;
-    private Text _tRepeat;
-    private Text _tActHeight;
     private PreviewShowCanvas _psc;
     private Button _btnAboutMe;
+    private Text text;
+    private Text text_1;
+    private Text text_2;
+    private Text text_3;
     
     public MainWindow()
     {
@@ -57,34 +58,6 @@ public final class MainWindow extends Shell
         setText("动画编辑器");
         setSize(1200, 640);
         
-        Label lbSpeed = new Label(this, SWT.NONE);
-        lbSpeed.setBounds(10, 15, 36, 14);
-        lbSpeed.setText("速度:");
-        
-        _tSpeed = new Text(this, SWT.BORDER);
-        _tSpeed.setBounds(46, 10, 40, 20);
-        
-        Label lbRepeat = new Label(this, SWT.NONE);
-        lbRepeat.setBounds(93, 15, 36, 14);
-        lbRepeat.setText("重复:");
-        
-        _tRepeat = new Text(this, SWT.BORDER);
-        _tRepeat.setBounds(135, 12, 40, 20);
-        
-        Label lbActWidth = new Label(this, SWT.NONE);
-        lbActWidth.setBounds(20, 58, 26, 14);
-        lbActWidth.setText("宽:");
-        
-        _tActWidth = new Text(this, SWT.BORDER);
-        _tActWidth.setBounds(56, 55, 40, 20);
-        
-        Label lbActHeight = new Label(this, SWT.NONE);
-        lbActHeight.setBounds(112, 55, 26, 14);
-        lbActHeight.setText("高:");
-        
-        _tActHeight = new Text(this, SWT.BORDER);
-        _tActHeight.setBounds(135, 55, 40, 20);
-        
         Composite cPreviewShowComposite = new Composite(this, SWT.BORDER);
         cPreviewShowComposite.setBounds(10, 140, 450, 450);
         
@@ -105,6 +78,50 @@ public final class MainWindow extends Shell
         _btnAboutMe = new Button(this, SWT.NONE);
         _btnAboutMe.setBounds(984, 3, 94, 28);
         _btnAboutMe.setText("关于");
+        
+        Group group_1 = new Group(this, SWT.NONE);
+        group_1.setText("帧设置");
+        group_1.setBounds(10, 7, 248, 95);
+        
+        Label label_1 = new Label(group_1, SWT.NONE);
+        label_1.setText("速度:");
+        label_1.setBounds(10, 10, 36, 14);
+        
+        text_1 = new Text(group_1, SWT.BORDER);
+        text_1.setBounds(50, 8, 40, 20);
+        
+        Label label_2 = new Label(group_1, SWT.NONE);
+        label_2.setText("宽:");
+        label_2.setBounds(10, 38, 26, 14);
+        
+        text_2 = new Text(group_1, SWT.BORDER);
+        text_2.setBounds(50, 36, 40, 20);
+        
+        text_3 = new Text(group_1, SWT.BORDER);
+        text_3.setBounds(118, 35, 40, 20);
+        
+        Label label_3 = new Label(group_1, SWT.NONE);
+        label_3.setText("高:");
+        label_3.setBounds(96, 38, 26, 14);
+        
+        Button btnNewButton_1 = new Button(group_1, SWT.NONE);
+        btnNewButton_1.setBounds(130, 3, 94, 28);
+        btnNewButton_1.setText("保存设置");
+        
+        Group group = new Group(this, SWT.NONE);
+        group.setBounds(264, 7, 220, 74);
+        group.setText("系统设置");
+        
+        Label label = new Label(group, SWT.NONE);
+        label.setText("重复:");
+        label.setBounds(10, 13, 36, 14);
+        
+        text = new Text(group, SWT.BORDER);
+        text.setBounds(52, 10, 40, 20);
+        
+        Button btnNewButton_2 = new Button(group, SWT.NONE);
+        btnNewButton_2.setBounds(98, 6, 94, 28);
+        btnNewButton_2.setText("保存设置");
     }
     
     public void drawCoordinate(GC gc)
