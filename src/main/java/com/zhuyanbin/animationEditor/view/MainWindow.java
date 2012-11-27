@@ -177,14 +177,6 @@ public final class MainWindow extends Shell
         btnFreshAnimation.setText("刷新动画");
         
         _anAnimationShowCanvas = new AnimationShowCanvas(cAnimationShowComposite, SWT.NONE);
-        new Runnable()
-        {
-            public void run()
-            {
-                _anAnimationShowCanvas.redraw();
-                getDisplay().timerExec(200, this);
-            }
-        }.run();
     }
     
     public void drawCoordinate(GC gc)
@@ -195,13 +187,11 @@ public final class MainWindow extends Shell
         }
     }
     
-    public void redrawAnimation()
+    public AnimationShowCanvas getAnimationShowCanvas()
     {
-        if (null != _anAnimationShowCanvas)
-        {
-            _anAnimationShowCanvas.redraw();
-        }
+        return _anAnimationShowCanvas;
     }
+    
     
     @Override
     protected void checkSubclass()

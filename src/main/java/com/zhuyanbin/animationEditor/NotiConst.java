@@ -18,12 +18,7 @@ public final class NotiConst
      * 画主窗体的坐标系
      */
     final public static String S_MEDIATOR_MAIN_DRAW_COORDINATE = "sMediatorMainDrawCoordinate";
-    
-    /**
-     * 重画主窗体的动画
-     */
-    final public static String S_MEDIATOR_MAIN_REDRAW_ANIMATION = "sMediatorMainReDrawAnimation";
-    
+        
     /**
      * 打开动画图片
      */

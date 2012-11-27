@@ -30,7 +30,6 @@ public final class MainWindowMediator extends Mediator
                 NotiConst.S_MEDIATOR_MAIN_SHOW,
                 NotiConst.S_MEDIATOR_MAIN_RESIZE,
                 NotiConst.S_MEDIATOR_MAIN_DRAW_COORDINATE,
-                NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION,
                 NotiConst.S_MEDIATOR_MAIN_OPEN_IMAGE_FILES
         };
     }
@@ -51,20 +50,20 @@ public final class MainWindowMediator extends Mediator
             GC gc = (GC) notification.getBody();
             getViewComponent().drawCoordinate(gc);
         }
-        else if (notiName.equals(NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION))
-        {
-            getViewComponent().redrawAnimation();
-        }
         else if (notiName.equals(NotiConst.S_MEDIATOR_MAIN_OPEN_IMAGE_FILES))
         {
             String fileNames[] = (String [])notification.getBody();
             if (null != fileNames)
             {
                 int len = fileNames.length;
-                ImageVO [] imageVOArray = new ImageVO[len];
+                if (len > 0)
+                {
+                    getViewComponent().getAnimationShowCanvas().clean();
+                }
+                
                 for (int i = 0; i< len; i++)
                 {
-                    imageVOArray[i] = new ImageVO(fileNames[i]);
+                    getViewComponent().getAnimationShowCanvas().addImageVO(new ImageVO(fileNames[i]));
                 }
             }
         }
