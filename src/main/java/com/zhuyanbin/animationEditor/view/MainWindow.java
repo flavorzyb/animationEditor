@@ -3,6 +3,7 @@ package com.zhuyanbin.animationEditor.view;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.puremvc.java.patterns.facade.Facade;
@@ -29,14 +30,10 @@ public final class MainWindow extends Shell
     private ResizeListener _resizeListener;
     private PrewviewShowCanvasPaintListener _pscPaintListener;
     private AboutMeSelectionListener _aboutMeSelectionListener;
-    private PreviewShowCanvas _psc;
+    private OpenImageSelectionListener _openImageSelectionListener;
+    private PreviewShowCanvas _previewShowCanvas;
     private MenuItem _miAboutMe;
-    private Text text;
-    private Text text_1;
-    private Text text_2;
-    private Text text_3;
-    private Text text_4;
-    private Text text_5;
+    private MenuItem _miOpenImage;
     
     public MainWindow()
     {
@@ -65,117 +62,121 @@ public final class MainWindow extends Shell
         Composite cPreviewShowComposite = new Composite(this, SWT.BORDER);
         cPreviewShowComposite.setBounds(10, 140, 450, 450);
         
-        _psc = new PreviewShowCanvas(cPreviewShowComposite, SWT.NONE);
+        _previewShowCanvas = new PreviewShowCanvas(cPreviewShowComposite, SWT.NONE);
         
         Composite composite_1 = new Composite(this, SWT.BORDER);
         composite_1.setBackground(SWTResourceManager.getColor(0, 0, 0));
         composite_1.setBounds(630, 140, 450, 450);
         
-        Group group_1 = new Group(this, SWT.NONE);
-        group_1.setText("帧设置");
-        group_1.setBounds(10, 7, 248, 122);
+        Group gFrameSettings = new Group(this, SWT.NONE);
+        gFrameSettings.setText("帧设置");
+        gFrameSettings.setBounds(10, 7, 248, 122);
         
-        Label label_1 = new Label(group_1, SWT.NONE);
-        label_1.setText("速度:");
-        label_1.setBounds(10, 10, 36, 14);
+        Label lbFrameSpeed = new Label(gFrameSettings, SWT.NONE);
+        lbFrameSpeed.setText("速度:");
+        lbFrameSpeed.setBounds(10, 10, 36, 14);
         
-        text_1 = new Text(group_1, SWT.BORDER);
-        text_1.setBounds(50, 8, 40, 20);
+        Text tFrameSpeed = new Text(gFrameSettings, SWT.BORDER);
+        tFrameSpeed.setBounds(50, 8, 40, 20);
         
-        Label label_2 = new Label(group_1, SWT.NONE);
-        label_2.setText("宽:");
-        label_2.setBounds(10, 38, 26, 14);
+        Label lbFrameWidth = new Label(gFrameSettings, SWT.NONE);
+        lbFrameWidth.setText("宽:");
+        lbFrameWidth.setBounds(10, 38, 26, 14);
         
-        text_2 = new Text(group_1, SWT.BORDER);
-        text_2.setBounds(50, 36, 40, 20);
+        Text tFrameWidth = new Text(gFrameSettings, SWT.BORDER);
+        tFrameWidth.setBounds(50, 36, 40, 20);
         
-        text_3 = new Text(group_1, SWT.BORDER);
-        text_3.setBounds(118, 35, 40, 20);
+        Label lbFrameHeight = new Label(gFrameSettings, SWT.NONE);
+        lbFrameHeight.setText("高:");
+        lbFrameHeight.setBounds(96, 38, 26, 14);
         
-        Label label_3 = new Label(group_1, SWT.NONE);
-        label_3.setText("高:");
-        label_3.setBounds(96, 38, 26, 14);
+        Text tFrameHeight = new Text(gFrameSettings, SWT.BORDER);
+        tFrameHeight.setBounds(118, 35, 40, 20);
         
-        Button btnNewButton_1 = new Button(group_1, SWT.NONE);
-        btnNewButton_1.setBounds(130, 3, 94, 28);
-        btnNewButton_1.setText("保存设置");
+        Button btnSaveFrameSettings = new Button(gFrameSettings, SWT.NONE);
+        btnSaveFrameSettings.setBounds(130, 3, 94, 28);
+        btnSaveFrameSettings.setText("保存设置");
         
-        Label label_4 = new Label(group_1, SWT.NONE);
-        label_4.setBounds(10, 58, 59, 14);
-        label_4.setText("锚点坐标:");
+        Label lbAnchor = new Label(gFrameSettings, SWT.NONE);
+        lbAnchor.setBounds(10, 58, 59, 14);
+        lbAnchor.setText("锚点坐标:");
         
-        text_4 = new Text(group_1, SWT.BORDER);
-        text_4.setBounds(118, 74, 40, 20);
+        Label lbAnchorX = new Label(gFrameSettings, SWT.NONE);
+        lbAnchorX.setText("X:");
+        lbAnchorX.setBounds(10, 77, 26, 14);
         
-        Label lblY = new Label(group_1, SWT.NONE);
-        lblY.setText("Y:");
-        lblY.setBounds(96, 77, 26, 14);
+        Text tFrameX = new Text(gFrameSettings, SWT.BORDER);
+        tFrameX.setBounds(50, 75, 40, 20);
+
+        Label lbAnchorY = new Label(gFrameSettings, SWT.NONE);
+        lbAnchorY.setText("Y:");
+        lbAnchorY.setBounds(96, 77, 26, 14);
         
-        text_5 = new Text(group_1, SWT.BORDER);
-        text_5.setBounds(50, 75, 40, 20);
-        
-        Label lblX = new Label(group_1, SWT.NONE);
-        lblX.setText("X:");
-        lblX.setBounds(10, 77, 26, 14);
+        Text tFrameY = new Text(gFrameSettings, SWT.BORDER);
+        tFrameY.setBounds(118, 74, 40, 20);
         
         Group gAnimationSettings = new Group(this, SWT.NONE);
-        gAnimationSettings.setBounds(264, 7, 220, 75);
+        gAnimationSettings.setBounds(264, 7, 220, 113);
         gAnimationSettings.setText("动画设置");
         
-        Label label = new Label(gAnimationSettings, SWT.NONE);
-        label.setText("播放次数:");
-        label.setBounds(10, 13, 58, 14);
+        Label lbPlayCount = new Label(gAnimationSettings, SWT.NONE);
+        lbPlayCount.setText("播放次数:");
+        lbPlayCount.setBounds(10, 13, 58, 14);
         
-        text = new Text(gAnimationSettings, SWT.BORDER);
-        text.setText("1");
-        text.setBounds(68, 10, 40, 20);
+        Text tPlayCount = new Text(gAnimationSettings, SWT.BORDER);
+        tPlayCount.setText("1");
+        tPlayCount.setBounds(68, 10, 40, 20);
         
-        Button btnNewButton_2 = new Button(gAnimationSettings, SWT.NONE);
-        btnNewButton_2.setBounds(118, 6, 94, 28);
-        btnNewButton_2.setText("保存设置");
+        Button btnSaveAnimationSettings = new Button(gAnimationSettings, SWT.NONE);
+        btnSaveAnimationSettings.setBounds(118, 6, 94, 28);
+        btnSaveAnimationSettings.setText("保存设置");
+        
+        Label lbPlayCountTips = new Label(gAnimationSettings, SWT.NONE);
+        lbPlayCountTips.setBounds(10, 36, 202, 50);
+        lbPlayCountTips.setText("提示:\n  播放次数要大于等于0，等于0表示\n  永久循环播放，否则只播放指定次数");
         
         Menu menu = new Menu(this, SWT.BAR);
         setMenuBar(menu);
         
-        MenuItem menuItem_2 = new MenuItem(menu, SWT.CASCADE);
-        menuItem_2.setText("文件");
+        MenuItem miFile = new MenuItem(menu, SWT.CASCADE);
+        miFile.setText("文件");
         
-        Menu menu_1 = new Menu(menuItem_2);
-        menuItem_2.setMenu(menu_1);
+        Menu mFile = new Menu(miFile);
+        miFile.setMenu(mFile);
         
-        MenuItem menuItem_3 = new MenuItem(menu_1, SWT.NONE);
-        menuItem_3.setText("打开图片");
+        _miOpenImage = new MenuItem(mFile, SWT.NONE);
+        _miOpenImage.setText("打开图片");
         
-        MenuItem menuItem = new MenuItem(menu_1, SWT.NONE);
+        MenuItem menuItem = new MenuItem(mFile, SWT.NONE);
         menuItem.setText("导出动画");
         
         MenuItem micHelp = new MenuItem(menu, SWT.CASCADE);
         micHelp.setText("帮助");
         
-        Menu menu_2 = new Menu(micHelp);
-        micHelp.setMenu(menu_2);
+        Menu mHelp = new Menu(micHelp);
+        micHelp.setMenu(mHelp);
         
-        _miAboutMe = new MenuItem(menu_2, SWT.NONE);
+        _miAboutMe = new MenuItem(mHelp, SWT.NONE);
         _miAboutMe.setText("关于");
         
-        Group group = new Group(this, SWT.NONE);
-        group.setText("动画演示");
-        group.setBounds(645, 19, 283, 101);
+        Group gAnimationShow = new Group(this, SWT.NONE);
+        gAnimationShow.setText("动画演示");
+        gAnimationShow.setBounds(645, 19, 283, 101);
         
-        Button btnNewButton = new Button(group, SWT.NONE);
-        btnNewButton.setBounds(10, 20, 94, 28);
-        btnNewButton.setText("播放动画");
+        Button btnPlayAnimation = new Button(gAnimationShow, SWT.NONE);
+        btnPlayAnimation.setBounds(10, 20, 94, 28);
+        btnPlayAnimation.setText("播放动画");
         
-        Button button = new Button(group, SWT.NONE);
-        button.setBounds(135, 20, 94, 28);
-        button.setText("刷新动画");
+        Button btnFreshAnimation = new Button(gAnimationShow, SWT.NONE);
+        btnFreshAnimation.setBounds(135, 20, 94, 28);
+        btnFreshAnimation.setText("刷新动画");
     }
     
     public void drawCoordinate(GC gc)
     {
-        if (null != _psc)
+        if (null != _previewShowCanvas)
         {
-            _psc.drawCoordinate(gc);
+            _previewShowCanvas.drawCoordinate(gc);
         }
     }
     
@@ -190,10 +191,13 @@ public final class MainWindow extends Shell
         addListener(SWT.Resize, _resizeListener);
         
         _pscPaintListener = new PrewviewShowCanvasPaintListener();
-        _psc.addPaintListener(_pscPaintListener);
+        _previewShowCanvas.addPaintListener(_pscPaintListener);
         
         _aboutMeSelectionListener = new AboutMeSelectionListener();
         _miAboutMe.addSelectionListener(_aboutMeSelectionListener);
+        
+        _openImageSelectionListener = new OpenImageSelectionListener();
+        _miOpenImage.addSelectionListener(_openImageSelectionListener);
     }
     
     private void removeEvents()
@@ -206,7 +210,7 @@ public final class MainWindow extends Shell
         
         if (null != _pscPaintListener)
         {
-            _psc.removePaintListener(_pscPaintListener);
+            _previewShowCanvas.removePaintListener(_pscPaintListener);
             _pscPaintListener = null;
         }
         
@@ -214,6 +218,12 @@ public final class MainWindow extends Shell
         {
             _miAboutMe.removeSelectionListener(_aboutMeSelectionListener);
             _aboutMeSelectionListener = null;
+        }
+        
+        if (null != _openImageSelectionListener)
+        {
+            _miOpenImage.removeSelectionListener(_openImageSelectionListener);
+            _openImageSelectionListener = null;
         }
     }
     
@@ -253,6 +263,32 @@ public final class MainWindow extends Shell
         public void widgetSelected(SelectionEvent e)
         {
             Facade.getInstance().sendNotification(NotiConst.S_COMMAND_ABOUTME_WINDOW_OPEN, getMainWindow());
+        }
+        
+        @Override
+        public void widgetDefaultSelected(SelectionEvent e)
+        {
+            // do nothing
+        }
+    }
+    
+    class OpenImageSelectionListener implements SelectionListener
+    {
+        @Override
+        public void widgetSelected(SelectionEvent e)
+        {
+            FileDialog fd = new FileDialog(getShell(), SWT.APPLICATION_MODAL | SWT.MULTI);
+            String []filter = {"*.png","*.jpg","*.gif"};
+            fd.setText("打开图片");
+            fd.setFilterExtensions(filter);
+            if (null != fd.open())
+            {
+                String [] fileNames = fd.getFileNames();
+                for (int i = 0; i < fileNames.length; i++)
+                {
+                    System.out.println(fileNames[i]);
+                }
+            }
         }
         
         @Override
