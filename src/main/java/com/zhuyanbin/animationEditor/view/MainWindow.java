@@ -11,28 +11,32 @@ import com.zhuyanbin.animationEditor.NotiConst;
 import com.zhuyanbin.animationEditor.view.mainwindow.PreviewShowCanvas;
 
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 public final class MainWindow extends Shell
 {
     private ResizeListener _resizeListener;
     private PrewviewShowCanvasPaintListener _pscPaintListener;
-    private AboutMeMouseListener _aboutMeMouseListener;
+    private AboutMeSelectionListener _aboutMeSelectionListener;
     private PreviewShowCanvas _psc;
-    private Button _btnAboutMe;
+    private MenuItem _miAboutMe;
     private Text text;
     private Text text_1;
     private Text text_2;
     private Text text_3;
+    private Text text_4;
+    private Text text_5;
     
     public MainWindow()
     {
@@ -63,25 +67,13 @@ public final class MainWindow extends Shell
         
         _psc = new PreviewShowCanvas(cPreviewShowComposite, SWT.NONE);
         
-        Button btnNewButton = new Button(this, SWT.NONE);
-        btnNewButton.setBounds(640, 0, 94, 28);
-        btnNewButton.setText("导入图片");
-        
         Composite composite_1 = new Composite(this, SWT.BORDER);
         composite_1.setBackground(SWTResourceManager.getColor(0, 0, 0));
         composite_1.setBounds(630, 140, 450, 450);
         
-        Button btnjta = new Button(this, SWT.NONE);
-        btnjta.setBounds(763, 0, 94, 28);
-        btnjta.setText("导入jta文件");
-        
-        _btnAboutMe = new Button(this, SWT.NONE);
-        _btnAboutMe.setBounds(984, 3, 94, 28);
-        _btnAboutMe.setText("关于");
-        
         Group group_1 = new Group(this, SWT.NONE);
         group_1.setText("帧设置");
-        group_1.setBounds(10, 7, 248, 95);
+        group_1.setBounds(10, 7, 248, 122);
         
         Label label_1 = new Label(group_1, SWT.NONE);
         label_1.setText("速度:");
@@ -108,20 +100,75 @@ public final class MainWindow extends Shell
         btnNewButton_1.setBounds(130, 3, 94, 28);
         btnNewButton_1.setText("保存设置");
         
-        Group group = new Group(this, SWT.NONE);
-        group.setBounds(264, 7, 220, 74);
-        group.setText("系统设置");
+        Label label_4 = new Label(group_1, SWT.NONE);
+        label_4.setBounds(10, 58, 59, 14);
+        label_4.setText("锚点坐标:");
         
-        Label label = new Label(group, SWT.NONE);
-        label.setText("重复:");
-        label.setBounds(10, 13, 36, 14);
+        text_4 = new Text(group_1, SWT.BORDER);
+        text_4.setBounds(118, 74, 40, 20);
         
-        text = new Text(group, SWT.BORDER);
-        text.setBounds(52, 10, 40, 20);
+        Label lblY = new Label(group_1, SWT.NONE);
+        lblY.setText("Y:");
+        lblY.setBounds(96, 77, 26, 14);
         
-        Button btnNewButton_2 = new Button(group, SWT.NONE);
-        btnNewButton_2.setBounds(98, 6, 94, 28);
+        text_5 = new Text(group_1, SWT.BORDER);
+        text_5.setBounds(50, 75, 40, 20);
+        
+        Label lblX = new Label(group_1, SWT.NONE);
+        lblX.setText("X:");
+        lblX.setBounds(10, 77, 26, 14);
+        
+        Group gAnimationSettings = new Group(this, SWT.NONE);
+        gAnimationSettings.setBounds(264, 7, 220, 75);
+        gAnimationSettings.setText("动画设置");
+        
+        Label label = new Label(gAnimationSettings, SWT.NONE);
+        label.setText("播放次数:");
+        label.setBounds(10, 13, 58, 14);
+        
+        text = new Text(gAnimationSettings, SWT.BORDER);
+        text.setText("1");
+        text.setBounds(68, 10, 40, 20);
+        
+        Button btnNewButton_2 = new Button(gAnimationSettings, SWT.NONE);
+        btnNewButton_2.setBounds(118, 6, 94, 28);
         btnNewButton_2.setText("保存设置");
+        
+        Menu menu = new Menu(this, SWT.BAR);
+        setMenuBar(menu);
+        
+        MenuItem menuItem_2 = new MenuItem(menu, SWT.CASCADE);
+        menuItem_2.setText("文件");
+        
+        Menu menu_1 = new Menu(menuItem_2);
+        menuItem_2.setMenu(menu_1);
+        
+        MenuItem menuItem_3 = new MenuItem(menu_1, SWT.NONE);
+        menuItem_3.setText("打开图片");
+        
+        MenuItem menuItem = new MenuItem(menu_1, SWT.NONE);
+        menuItem.setText("导出动画");
+        
+        MenuItem micHelp = new MenuItem(menu, SWT.CASCADE);
+        micHelp.setText("帮助");
+        
+        Menu menu_2 = new Menu(micHelp);
+        micHelp.setMenu(menu_2);
+        
+        _miAboutMe = new MenuItem(menu_2, SWT.NONE);
+        _miAboutMe.setText("关于");
+        
+        Group group = new Group(this, SWT.NONE);
+        group.setText("动画演示");
+        group.setBounds(645, 19, 283, 101);
+        
+        Button btnNewButton = new Button(group, SWT.NONE);
+        btnNewButton.setBounds(10, 20, 94, 28);
+        btnNewButton.setText("播放动画");
+        
+        Button button = new Button(group, SWT.NONE);
+        button.setBounds(135, 20, 94, 28);
+        button.setText("刷新动画");
     }
     
     public void drawCoordinate(GC gc)
@@ -145,8 +192,8 @@ public final class MainWindow extends Shell
         _pscPaintListener = new PrewviewShowCanvasPaintListener();
         _psc.addPaintListener(_pscPaintListener);
         
-        _aboutMeMouseListener = new AboutMeMouseListener();
-        _btnAboutMe.addMouseListener(_aboutMeMouseListener);
+        _aboutMeSelectionListener = new AboutMeSelectionListener();
+        _miAboutMe.addSelectionListener(_aboutMeSelectionListener);
     }
     
     private void removeEvents()
@@ -163,10 +210,10 @@ public final class MainWindow extends Shell
             _pscPaintListener = null;
         }
         
-        if (null != _aboutMeMouseListener)
+        if (null != _aboutMeSelectionListener)
         {
-            _btnAboutMe.removeMouseListener(_aboutMeMouseListener);
-            _aboutMeMouseListener = null;
+            _miAboutMe.removeSelectionListener(_aboutMeSelectionListener);
+            _aboutMeSelectionListener = null;
         }
     }
     
@@ -200,22 +247,16 @@ public final class MainWindow extends Shell
         }
     }
     
-    class AboutMeMouseListener implements MouseListener
+    class AboutMeSelectionListener implements SelectionListener
     {
         @Override
-        public void mouseDoubleClick(MouseEvent e)
-        {
-            // do nothing
-        }
-        
-        @Override
-        public void mouseDown(MouseEvent e)
+        public void widgetSelected(SelectionEvent e)
         {
             Facade.getInstance().sendNotification(NotiConst.S_COMMAND_ABOUTME_WINDOW_OPEN, getMainWindow());
         }
         
         @Override
-        public void mouseUp(MouseEvent e)
+        public void widgetDefaultSelected(SelectionEvent e)
         {
             // do nothing
         }
