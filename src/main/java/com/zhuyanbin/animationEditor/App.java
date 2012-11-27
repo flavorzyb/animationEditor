@@ -2,10 +2,6 @@ package com.zhuyanbin.animationEditor;
 
 import org.puremvc.java.patterns.observer.Notification;
 
-/**
- * Hello world!
- *
- */
 public final class App 
 {
     public App()

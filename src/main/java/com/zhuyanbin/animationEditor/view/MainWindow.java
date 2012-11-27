@@ -11,7 +11,6 @@ import com.zhuyanbin.animationEditor.NotiConst;
 import com.zhuyanbin.animationEditor.view.mainwindow.PreviewShowCanvas;
 
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -27,12 +26,10 @@ public final class MainWindow extends Shell
     private ResizeListener _resizeListener;
     private PrewviewShowCanvasPaintListener _pscPaintListener;
     private AboutMeMouseListener _aboutMeMouseListener;
-    private Text tSpeed;
-    private Text tActWidth;
-    private Text tRepeat;
-    private Text tActHeight;
-    private Text tDirectWidth;
-    private Text tDirectHeight;
+    private Text _tSpeed;
+    private Text _tActWidth;
+    private Text _tRepeat;
+    private Text _tActHeight;
     private PreviewShowCanvas _psc;
     private Button _btnAboutMe;
     
@@ -57,68 +54,36 @@ public final class MainWindow extends Shell
      */
     protected void createContents()
     {
-        setText("动作编辑器");
+        setText("动画编辑器");
         setSize(1200, 640);
         
-        Label lbAction = new Label(this, SWT.NONE);
-        lbAction.setBounds(10, 10, 36, 14);
-        lbAction.setText("动作:");
-        
-        CCombo ccAction = new CCombo(this, SWT.BORDER);
-        ccAction.setText("请选择动作");
-        ccAction.setEditable(false);
-        ccAction.setBounds(52, 9, 80, 20);
-        
         Label lbSpeed = new Label(this, SWT.NONE);
-        lbSpeed.setBounds(128, 10, 36, 14);
+        lbSpeed.setBounds(10, 15, 36, 14);
         lbSpeed.setText("速度:");
         
-        tSpeed = new Text(this, SWT.BORDER);
-        tSpeed.setBounds(164, 5, 40, 20);
+        _tSpeed = new Text(this, SWT.BORDER);
+        _tSpeed.setBounds(46, 10, 40, 20);
         
         Label lbRepeat = new Label(this, SWT.NONE);
-        lbRepeat.setBounds(211, 10, 36, 14);
+        lbRepeat.setBounds(93, 15, 36, 14);
         lbRepeat.setText("重复:");
         
-        tRepeat = new Text(this, SWT.BORDER);
-        tRepeat.setBounds(253, 7, 40, 20);
+        _tRepeat = new Text(this, SWT.BORDER);
+        _tRepeat.setBounds(135, 12, 40, 20);
         
         Label lbActWidth = new Label(this, SWT.NONE);
-        lbActWidth.setBounds(142, 50, 26, 14);
+        lbActWidth.setBounds(20, 58, 26, 14);
         lbActWidth.setText("宽:");
         
-        tActWidth = new Text(this, SWT.BORDER);
-        tActWidth.setBounds(174, 50, 40, 20);
+        _tActWidth = new Text(this, SWT.BORDER);
+        _tActWidth.setBounds(56, 55, 40, 20);
         
         Label lbActHeight = new Label(this, SWT.NONE);
-        lbActHeight.setBounds(230, 50, 26, 14);
+        lbActHeight.setBounds(112, 55, 26, 14);
         lbActHeight.setText("高:");
         
-        tActHeight = new Text(this, SWT.BORDER);
-        tActHeight.setBounds(253, 50, 40, 20);
-        
-        Label lbDirection = new Label(this, SWT.NONE);
-        lbDirection.setBounds(10, 93, 36, 14);
-        lbDirection.setText("方向:");
-        
-        CCombo ccDirection = new CCombo(this, SWT.BORDER);
-        ccDirection.setEditable(false);
-        ccDirection.setBounds(52, 93, 80, 20);
-        ccDirection.setText("请选择方向");
-        
-        Label lbDirectWidth = new Label(this, SWT.NONE);
-        lbDirectWidth.setText("宽:");
-        lbDirectWidth.setBounds(142, 93, 26, 14);
-        
-        tDirectWidth = new Text(this, SWT.BORDER);
-        tDirectWidth.setBounds(174, 93, 40, 20);
-        
-        Label lbDirectHeight = new Label(this, SWT.NONE);
-        lbDirectHeight.setText("高:");
-        lbDirectHeight.setBounds(230, 93, 26, 14);
-        
-        tDirectHeight = new Text(this, SWT.BORDER);
-        tDirectHeight.setBounds(263, 93, 40, 20);
+        _tActHeight = new Text(this, SWT.BORDER);
+        _tActHeight.setBounds(135, 55, 40, 20);
         
         Composite cPreviewShowComposite = new Composite(this, SWT.BORDER);
         cPreviewShowComposite.setBounds(10, 140, 450, 450);
