@@ -7,16 +7,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.puremvc.java.patterns.facade.Facade;
-
-import com.zhuyanbin.animationEditor.NotiConst;
 
 public class AnimationShowCanvas extends Canvas
 {
     private Vector<Image> _images;
     private int index = 0;
     
-    private AnimationThread at;
     public AnimationShowCanvas(Composite parent, int style)
     {
         super(parent, style);
@@ -66,39 +62,5 @@ public class AnimationShowCanvas extends Canvas
                 //System.out.println(index);
             }
         });
-    }
-    
-    @Override
-    protected void checkWidget () 
-    {
-    }
-    
-    public void show()
-    {
-        if (null == at)
-        {
-//            at = new AnimationThread();
-//            at.start();
-        }
-    }
-    
-    class AnimationThread extends Thread
-    {
-        @Override
-        public void run() 
-        {
-            while (true)
-            {
-                try
-                {
-                    Facade.getInstance().sendNotification(NotiConst.S_MEDIATOR_MAIN_REDRAW_ANIMATION);
-                    sleep(300);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }
